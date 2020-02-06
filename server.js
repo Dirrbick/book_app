@@ -25,7 +25,7 @@ function homeRender(req, res) {
 
 function Book(item){
   this.title = item.title;
-  this.
+  this.description = item.description;
 }
 app.get('*', (request, response) => response.status(404).send('This route does not exist'));
 
