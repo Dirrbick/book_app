@@ -1,0 +1,33 @@
+/* body{
+  background-color: purple;
+} */
+main{
+  background-color: silver;
+  height: 250px;
+  width: 50%;
+  margin: 0px auto;
+}
+
+header{
+  display: inline-block;
+  width: 100%;
+}
+
+.box-shadow-menu {
+  position: relative;
+  padding-left: 1.25em;
+}
+.box-shadow-menu:before {
+  display: flex;
+  justify-content: flex-end;
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0.25em;
+  width: 1em;
+  height: 0.15em;
+  background: black;
+  box-shadow: 
+    0 0.25em 0 0 black,
+    0 0.5em 0 0 black;
+}
