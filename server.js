@@ -46,7 +46,7 @@ function homeRender(req, res) {
 }
 //Form renders .
 function formRender(req, res) {
-  res.render('pages/new.ejs');
+  res.render('pages/searches/new.ejs');
 }
 
 // Constracter function of book . 
