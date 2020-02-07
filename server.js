@@ -15,19 +15,28 @@ app.get('/searches/new', formRender);
 
 // app.get('/search', searchRender);
 
-app.get('/test', bookHandler);
+
+app.post('/searches', bookHandler);
+
 
 // BOOK HANDLER FUNCTION . 
 function bookHandler(req, res) {
-  let url = 'https://www.googleapis.com/books/v1/volumes?q=spiderman';
+  let url = 'https://www.googleapis.com/books/v1/volumes?q=';
+  if (req.body.search[1] === 'title') { url += `+intitle:${req.body.search[0]};` }
+  if (req.body.search[1] === 'author') { url += `+intitle:${req.body.search[0]};` }
+
   superagent.get(url)
-    .then(data => {
-      console.log(data.text.volumeInfo);
-
-
-    });
+    .then(data => JSON.parse(data.text).items.map(obj => new Book(obj)))
+    .then(results => res.render('pages/show.ejs', { searchResults: results }))
+    .catch(() => errorHandler('Error 500! Something has gone wrong with the website server!', req, res));
 }
 
+
+
+// ERROR HANDLER FUNCIOTN . 
+function errorHandler(error, req, response) {
+  response.status(500).send(error);
+}
 
 
 
@@ -37,14 +46,17 @@ function homeRender(req, res) {
 }
 //Form renders .
 function formRender(req, res) {
-  res.render('pages/searches/new.ejs');
+  res.render('pages/new.ejs');
 }
 
 // Constracter function of book . 
 function Book(item) {
-  this.title = item.title;
-  this.authors = item.authors;
+  this.title = item.volumeInfo.title || 'no title available';
+  this.authors = item.volumeInfo.authors || 'no title available';
 }
-app.get('*', (request, response) => response.status(404).send('This route does not exist'));
+
+
+
+app.get('*', (req, response) => response.status(404).send('This route does not exist'));
 
 app.listen(PORT, () => console.log(`Server up on port ${PORT}`));
