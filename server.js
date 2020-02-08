@@ -53,7 +53,8 @@ function formRender(req, res) {
 // Constracter function of book . 
 function Book(item) {
   this.title = item.volumeInfo.title || 'no title available';
-  this.authors = item.volumeInfo.authors || 'no title available';
+  this.authors = item.volumeInfo.authors || ['no title available'];
+
 }
 
 
