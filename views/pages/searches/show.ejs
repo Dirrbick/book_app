@@ -14,15 +14,21 @@
     Book Title !!
   </h2>
   <ul>
-    <% searchResults.forEach(array => { %>
+    <% searchResults.map(array => { %>
     <li>
       <%= array.title %>
     </li>
+    <h3>
+      Author!!
+    </h3>
+
+    <%for(let i = 0; i < array.authors.length; i++){ %>
+    <li>
+      <%= array.authors[i] %>
+    </li>
+    <% } %>
     <% }) %>
   </ul>
-  <h3>
-    Author!!
-  </h3>
 
 
 </body>
