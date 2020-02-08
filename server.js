@@ -6,11 +6,11 @@ const PORT = process.env.PORT;
 const app = express();
 
 //set up view engine and serve static CSS files
-app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
-app.get('/hello', homeRender);
+app.get('/', homeRender);
 app.get('/searches/new', formRender);
 
 // app.get('/search', searchRender);
@@ -54,6 +54,7 @@ function formRender(req, res) {
 function Book(item) {
   this.title = item.volumeInfo.title || 'no title available';
   this.authors = item.volumeInfo.authors || ['no title available'];
+  this.image = `<img src="${item.volumeInfo.imageLinks.smallThumbnail}">`;
 
 }
 

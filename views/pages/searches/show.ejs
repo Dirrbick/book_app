@@ -10,27 +10,36 @@
 </head>
 
 <body>
-  <h2>
-    Book Title !!
-  </h2>
+  <main>
+    <header>
+      <h1>
+        <nav>
+          <a href="/">Home</a>
+        <a href="/searches/new">Search Books</a>
+      </nav>
+      <a href="#menu" class="box-shadow-menu"></a>
+    </h1>
+  </header>
   <ul>
     <% searchResults.map(array => { %>
-    <li>
-      <%= array.title %>
-    </li>
-    <h3>
-      Author!!
-    </h3>
-
-    <%for(let i = 0; i < array.authors.length; i++){ %>
-    <li>
-      <%= array.authors[i] %>
-    </li>
-    <% } %>
+      <div class="bookResults">
+        <li>
+          <%- array.image %>
+        </li>
+        <li>
+          <%= array.title %>
+        </li>     
+        <%for(let i = 0; i < array.authors.length; i++){ %>
+        <li>
+          <%= array.authors[i] %>
+        </li>
+        <% } %>
+      </div>
     <% }) %>
   </ul>
-
-
-</body>
-
+        
+      
+    </main>
+  </body>
+    
 </html>
