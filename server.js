@@ -55,7 +55,7 @@ function Book(item) {
   this.title = item.volumeInfo.title || 'no title available';
   this.authors = item.volumeInfo.authors || ['no title available'];
   this.image = `<img src="${item.volumeInfo.imageLinks.smallThumbnail}">` || 'no picture available';
-
+  this.description = item.volumeInfo.description || 'no description available';
 }
 
 
