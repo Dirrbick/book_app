@@ -23,12 +23,13 @@ app.post('/searches', bookHandler);
 function bookHandler(req, res) {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
   if (req.body.search[1] === 'title') { url += `+intitle:${req.body.search[0]};` }
-  if (req.body.search[1] === 'author') { url += `+intitle:${req.body.search[0]};` }
-
+  if (req.body.search[1] === 'author') { url += `+inauthor:${req.body.search[0]};` }
   superagent.get(url)
     .then(data => JSON.parse(data.text).items.map(obj => new Book(obj)))
-    .then(results => res.render('pages/show.ejs', { searchResults: results }))
+    .then(results => res.render('pages/searches/show', { searchResults: results }))
+
     .catch(() => errorHandler('Error 500! Something has gone wrong with the website server!', req, res));
+
 }
 
 
@@ -52,7 +53,8 @@ function formRender(req, res) {
 // Constracter function of book . 
 function Book(item) {
   this.title = item.volumeInfo.title || 'no title available';
-  this.authors = item.volumeInfo.authors || 'no title available';
+  this.authors = item.volumeInfo.authors || ['no title available'];
+
 }
 
 
