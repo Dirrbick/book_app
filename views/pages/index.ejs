@@ -21,6 +21,27 @@
         </nav>
         <a href="#menu" class="box-shadow-menu"></a>
       </h1>
+      <ul>
+        <% databaseResults.map(array => { %>
+        <div class="bookResults">
+          <li>
+            <%- array.image_url%>
+          </li>
+          <li>
+            <%= array.title %>
+          </li>
+
+          <li>
+            <%= array.authors %>
+          </li>
+
+          <li>
+            <%= array.description %>
+          </li>
+        </div>
+        <% }) %>
+      </ul>
+
     </header>
 
 
