@@ -18,34 +18,41 @@
       <h1>
         <nav>
           <a href="/">Home</a>
-        <a href="/searches/new">Search Books</a>
-      </nav>
-      <a href="#menu" class="box-shadow-menu"></a>
-    </h1>
-  </header>
-  <ul>
-    <% searchResults.map(array => { %>
+          <a href="/searches/new">Search Books</a>
+        </nav>
+        <a href="#menu" class="box-shadow-menu"></a>
+      </h1>
+    </header>
+    <ul>
+      <% searchResults.map(array => { %>
       <div class="bookResults">
         <li>
           <%- array.image %>
         </li>
         <li>
           <%= array.title %>
-        </li>     
+        </li>
         <%for(let i = 0; i < array.authors.length; i++){ %>
         <li>
-          <%= array.authors[i] %>
+          <%= array.authors %>
         </li>
         <% } %>
         <li>
           <%= array.description %>
         </li>
+        <form action="/books" method="post">
+          <input type="hidden" name="book_image" value="<%= array.image %>">
+          <input type="hidden" name="book_title" value="<%= array.title %>">
+          <input type="hidden" name="book_authors" value="<%= array.authors %>">
+          <input type="hidden" name="book_description" value=" <%= array.description %>">
+          <button>SAVE TO DATABASE</button>
+        </form>
       </div>
-    <% }) %>
-  </ul>
-        
-      
-    </main>
-  </body>
-    
+      <% }) %>
+    </ul>
+
+
+  </main>
+</body>
+
 </html>
