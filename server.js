@@ -53,6 +53,7 @@ function databaseHandler(req, res) {
   client.query(SQL1, safeValue)
     .then(results => {
       console.log('this is inside client query');
+      res.render('/', { databaseResults: results.rows })
     })
     .catch(() => errorHandler('Error 500 ! something has gone wrong with the database handler!', req, res));
 
