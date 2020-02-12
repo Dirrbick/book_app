@@ -16,7 +16,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', homeRender);
 app.get('/searches/new', formRender);
-
+app.get('/books/:id', detailsRender);
 app.post('/books', databaseHandler);
 
 // app.get('/search', searchRender);
@@ -38,7 +38,15 @@ function homeRender(req, res) {
 }
 
 
-
+function detailsRender(req, res) {
+  let SQL = `SELECT * FROM books WHERE id=$1`;
+  let values = [req.params.id];
+  return client.query(SQL, values)
+    .then(results => {
+      return res.render('pages/books/detail', {databaseResults: results.rows[0] });
+    })
+    .catch(() => errorHandler('error 500! something has gone wrong on the database homeRender', req, res));
+}
 
 //ADDING TO DATABASE . 
 
@@ -51,9 +59,9 @@ function databaseHandler(req, res) {
   let SQL1 = 'INSERT INTO books (author , image_url , title , description) VALUES ( $1 , $2 , $3 , $4);';
   let safeValue = [author, image_url, title, description];
   client.query(SQL1, safeValue)
-    .then(results => {
+    .then(() => {
       console.log('this is inside client query');
-      res.render('/', { databaseResults: results.rows })
+      res.redirect('/');
     })
     .catch(() => errorHandler('Error 500 ! something has gone wrong with the database handler!', req, res));
 

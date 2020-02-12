@@ -30,15 +30,15 @@
           <%- array.image %>
         </li>
         <li>
-          <%= array.title %>
+          Title: <%= array.title %>
         </li>
         <%for(let i = 0; i < array.authors.length; i++){ %>
         <li>
-          <%= array.authors %>
+          Author: <%= array.authors %>
         </li>
         <% } %>
         <li>
-          <%= array.description %>
+          Description: <%= array.description %>
         </li>
         <form action="/books" method="post">
           <input type="hidden" name="book_image" value="<%= array.image %>">

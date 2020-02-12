@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Book App</title>
+
+  <link rel="stylesheet" href="styles/reset.css">
+  <link rel="stylesheet" href="styles/base.css">
+</head>
+
+<body>
+  <main>
+    <header>
+      <h1>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/searches/new">Search Books</a>
+        </nav>
+        <a href="#menu" class="box-shadow-menu"></a>
+      </h1>
+    </header>
+    <div class="bookResults">
+      <img src="<%= searchResults.image_url %>" alt="">
+      <p>
+        <%= searchResults.title %>
+      </p>
+      <p>
+        <%= searchResults.authors %>
+      </p>
+      <p>
+        <%= searchResults.description %>
+      </p>
+    </div>
+    <footer>
+
+    </footer>
+  </main>
+</body>
+
+</html>

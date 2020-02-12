@@ -43,9 +43,9 @@ header{
   0 0.5em 0 0 black;
 }
 
-@media(max-width: 460px){
+@media(max-width: 480px){
   main{
-    background-color: blue;
+    background-color: pink;
     height: 250px;
     width: 50%;
     margin: 0px auto;

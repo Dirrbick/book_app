@@ -38,6 +38,10 @@
           <li>
             <%= array.description %>
           </li>
+          <a href="/books/:<%- databaseResults.id %>">Show Details</a>
+          <!-- <form action="/books/:<%- databaseResults.id %>" methods="get">
+            <button>Show me the DEETS</button>
+          </form> -->
         </div>
         <% }) %>
       </ul>
