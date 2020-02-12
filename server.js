@@ -39,7 +39,13 @@ function homeRender(req, res) {
 
 
 function detailsRender(req, res) {
-  res.send('I am details');
+  let SQL = `SELECT * FROM books WHERE id=$1`;
+  let values = [req.params.id];
+  return client.query(SQL, values)
+    .then(results => {
+      return res.render('pages/books/detail', {databaseResults: results.rows[0] });
+    })
+    .catch(() => errorHandler('error 500! something has gone wrong on the database homeRender', req, res));
 }
 
 //ADDING TO DATABASE . 
@@ -56,7 +62,6 @@ function databaseHandler(req, res) {
     .then(() => {
       console.log('this is inside client query');
       res.redirect('/');
-      // res.render('/pages/books/detail', { databaseResults: results.rows })
     })
     .catch(() => errorHandler('Error 500 ! something has gone wrong with the database handler!', req, res));
 
