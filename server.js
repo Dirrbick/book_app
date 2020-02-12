@@ -16,7 +16,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', homeRender);
 app.get('/searches/new', formRender);
-
+app.get('/books/:id', detailsRender);
 app.post('/books', databaseHandler);
 
 // app.get('/search', searchRender);
@@ -38,7 +38,9 @@ function homeRender(req, res) {
 }
 
 
-
+function detailsRender(req, res) {
+  res.send('I am details');
+}
 
 //ADDING TO DATABASE . 
 
@@ -51,9 +53,10 @@ function databaseHandler(req, res) {
   let SQL1 = 'INSERT INTO books (author , image_url , title , description) VALUES ( $1 , $2 , $3 , $4);';
   let safeValue = [author, image_url, title, description];
   client.query(SQL1, safeValue)
-    .then(results => {
+    .then(() => {
       console.log('this is inside client query');
-      res.render('/', { databaseResults: results.rows })
+      res.redirect('/');
+      // res.render('/pages/books/detail', { databaseResults: results.rows })
     })
     .catch(() => errorHandler('Error 500 ! something has gone wrong with the database handler!', req, res));
 
