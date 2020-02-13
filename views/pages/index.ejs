@@ -6,21 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Book App</title>
-
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/base.css">
 </head>
 
 <body>
   <main>
-    <header>
-      <h1>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/searches/new">Search Books</a>
-        </nav>
-        <a href="#menu" class="box-shadow-menu"></a>
-      </h1>
+    <%- include('partials/navBarr.ejs') %>
       <ul>
         <% databaseResults.map(array => { %>
         <div class="bookResults">
@@ -28,15 +20,13 @@
           <li><%= array.title %></li>
           <li><%= array.author %></li>
           <li><%= array.description %></li>
-          <a href="/books/:<%- databaseResults.id %>">Show Details</a>
           <form method="get" action="/books/<%- array.id %>">
-            <button>Show me the DEETS</button>
+            <button>Show me the Details</button>
           </form>
         </div>
         <% }) %>
       </ul>
 
-    </header>
 
 
     <footer>
