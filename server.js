@@ -5,19 +5,21 @@ const express = require('express');
 const PORT = process.env.PORT;
 const app = express();
 const pg = require('pg');
-// const methodOverride = require('_method_Override');
+const methodOverride = require('method-override');
 const client = new pg.Client(process.env.DATABASE_URL);
 //set up view engine and serve static CSS files
+
+
 app.use(express.static('./public'));
 app.use(express.urlencoded({ extended: true }));
-// app.use(methodOverride(_method));
-
+app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
-
 app.get('/', homeRender);
 app.get('/searches/new', formRender);
 app.get('/books/:id', detailsRender);
 app.post('/books', databaseHandler);
+app.put('/books/:id', updateHandler);
+app.delete('/books/:id', deletHandler);
 
 // app.get('/search', searchRender);
 app.post('/searches', bookHandler);
@@ -35,6 +37,36 @@ function homeRender(req, res) {
     })
     .catch(() => errorHandler('error 500! something has gone wrong on the database homeRender', req, res));
 }
+/// UPDATE HANDLER . 
+function updateHandler(req, res) {
+  let id = req.params.id;
+  let author = req.body.book_authors;
+  let title = req.body.book_title;
+  let description = req.body.book_description;
+  let isbn = req.body.book_isbn;
+
+
+  let SQL = 'UPDATE books SET author=$1 , title=$2 , description=$3 , isbn=$4 WHERE id = $5';
+  let value = [author, title, description, isbn, id];
+  client.query(SQL, value)
+    .then(() => {
+      res.redirect(`/books/${id}`);
+    })
+    .catch(() => errorHandler('Error 500 ! something has gone wrong with the update handler!', req, res));
+}
+////  DELETE HANDLER . 
+function deletHandler(req, res) {
+  let id = req.params.id;
+  let SQL = 'DELETE FROM books WHERE id = $1'
+  let values = [id];
+  client.query(SQL, values)
+    .then(() => {
+      res.redirect('/');
+    })
+
+
+    .catch(() => errorHandler('error 500! something has gone wrong on the delete', req, res));
+}
 
 
 function detailsRender(req, res) {
@@ -42,9 +74,9 @@ function detailsRender(req, res) {
   let values = [req.params.id];
   return client.query(SQL, values)
     .then(results => {
-      return res.render('pages/books/detail', {databaseResults : results.rows[0] });
+      return res.render('pages/books/detail', { databaseResults: results.rows[0] });
     })
-    .catch(() => errorHandler('error 500! something has gone wrong on the database homeRender', req, res));
+    .catch(() => errorHandler('error 500! something has gone wrong on the details homeRender', req, res));
 }
 
 //ADDING TO DATABASE . 
@@ -54,9 +86,10 @@ function databaseHandler(req, res) {
   let image_url = req.body.book_image;
   let title = req.body.book_title;
   let description = req.body.book_description;
+  let isbn = req.body.book_isbn;
 
-  let SQL1 = 'INSERT INTO books (author , image_url , title , description) VALUES ( $1 , $2 , $3 , $4);';
-  let safeValue = [author, image_url, title, description];
+  let SQL1 = 'INSERT INTO books (author , image_url , title , description) VALUES ( $1 , $2 , $3 , $4 ,$5);';
+  let safeValue = [author, image_url, title, description, isbn];
   client.query(SQL1, safeValue)
     .then(() => {
       console.log('this is inside client query');
@@ -105,6 +138,7 @@ function Book(item) {
   this.authors = item.volumeInfo.authors || ['no title available'];
   this.image = `<img src="${item.volumeInfo.imageLinks.smallThumbnail}">` || 'no picture available';
   this.description = item.volumeInfo.description || 'no description available';
+  this.isbn = item.industryIdentifiers.type;
 }
 
 
