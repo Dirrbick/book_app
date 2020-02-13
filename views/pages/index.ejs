@@ -24,24 +24,14 @@
       <ul>
         <% databaseResults.map(array => { %>
         <div class="bookResults">
-          <li>
-            <%- array.image_url%>
-          </li>
-          <li>
-            <%= array.title %>
-          </li>
-
-          <li>
-            <%= array.authors %>
-          </li>
-
-          <li>
-            <%= array.description %>
-          </li>
+          <li><%- array.image_url%></li>
+          <li><%= array.title %></li>
+          <li><%= array.author %></li>
+          <li><%= array.description %></li>
           <a href="/books/:<%- databaseResults.id %>">Show Details</a>
-          <!-- <form action="/books/:<%- databaseResults.id %>" methods="get">
+          <form method="get" action="/books/<%- array.id %>">
             <button>Show me the DEETS</button>
-          </form> -->
+          </form>
         </div>
         <% }) %>
       </ul>
