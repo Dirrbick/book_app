@@ -31,7 +31,6 @@ function homeRender(req, res) {
   let SQL2 = 'SELECT * FROM books;';
   client.query(SQL2)
     .then(results => {
-      console.log('results form database show', results.rows);
       res.render('pages/index', { databaseResults: results.rows })
     })
     .catch(() => errorHandler('error 500! something has gone wrong on the database homeRender', req, res));
@@ -43,7 +42,7 @@ function detailsRender(req, res) {
   let values = [req.params.id];
   return client.query(SQL, values)
     .then(results => {
-      return res.render('pages/books/detail', {databaseResults: results.rows[0] });
+      return res.render('pages/books/detail', {databaseResults : results.rows[0] });
     })
     .catch(() => errorHandler('error 500! something has gone wrong on the database homeRender', req, res));
 }
