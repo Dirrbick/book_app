@@ -13,23 +13,31 @@
 
 <body>
   <main>
-    <header>
-      <h1>
-        <nav>
-          <a href="/">Home</a>
-          <a href="/searches/new">Search Books</a>
-        </nav>
-        <a href="#menu" class="box-shadow-menu"></a>
-      </h1>
-      <ul>
-        <div class="bookResults">
-          <li><%- databaseResults.image_url%></li>
-          <li><%= databaseResults.title %></li>
-          <li><%= databaseResults.author %></li>
-          <li><%= databaseResults.description %></li>
-      </ul>
+    <%- include('../partials/navBarr.ejs') %>
+    <ul>
+      <div class="bookResults">
+        <li><%- databaseResults.image_url%></li>
+        <li><%= databaseResults.title %></li>
+        <li><%= databaseResults.author %></li>
+        <li><%= databaseResults.description %></li>
 
-    </header>
+        <form method="post" action="/books/<%- databaseResults.id %>?_method=put">
+          <input type="text" name="book_title" value="<%= databaseResults.title %>">
+          <input type="text" name="book_authors" value="<%= databaseResults.author %>">
+          <input type="text" name="book_description" value=" <%= databaseResults.description %>">
+          <input type="text" name="book_isbn" value="<%= databaseResults.isbn %>">
+          <button type="submit">Update Book</button>
+        </form>
+
+        <form method="post" action="/books/<%- databaseResults.id %>?_method=delete">
+          <button type="submit">DELETE</button>
+        </form>
+      </div>
+
+    </ul>
+
+
+
 
 
     <footer>
