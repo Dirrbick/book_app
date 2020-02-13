@@ -11,7 +11,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 
 
 app.use(express.static('./public'));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, }));
 app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 app.get('/', homeRender);
@@ -19,7 +19,7 @@ app.get('/searches/new', formRender);
 app.get('/books/:id', detailsRender);
 app.post('/books', databaseHandler);
 app.put('/books/:id', updateHandler);
-app.delete('/books/:id', deletHandler);
+app.delete('/books/:id', deleteHandler);
 
 // app.get('/search', searchRender);
 app.post('/searches', bookHandler);
@@ -33,7 +33,7 @@ function homeRender(req, res) {
   let SQL2 = 'SELECT * FROM books;';
   client.query(SQL2)
     .then(results => {
-      res.render('pages/index', { databaseResults: results.rows })
+      res.render('pages/index', { databaseResults: results.rows, });
     })
     .catch(() => errorHandler('error 500! something has gone wrong on the database homeRender', req, res));
 }
@@ -55,9 +55,9 @@ function updateHandler(req, res) {
     .catch(() => errorHandler('Error 500 ! something has gone wrong with the update handler!', req, res));
 }
 ////  DELETE HANDLER . 
-function deletHandler(req, res) {
+function deleteHandler(req, res) {
   let id = req.params.id;
-  let SQL = 'DELETE FROM books WHERE id = $1'
+  let SQL = 'DELETE FROM books WHERE id = $1';
   let values = [id];
   client.query(SQL, values)
     .then(() => {
@@ -74,7 +74,7 @@ function detailsRender(req, res) {
   let values = [req.params.id];
   return client.query(SQL, values)
     .then(results => {
-      return res.render('pages/books/detail', { databaseResults: results.rows[0] });
+      return res.render('pages/books/detail', { databaseResults: results.rows[0],});
     })
     .catch(() => errorHandler('error 500! something has gone wrong on the details homeRender', req, res));
 }
@@ -104,14 +104,14 @@ function databaseHandler(req, res) {
 // BOOK HANDLER FUNCTION . 
 function bookHandler(req, res) {
   let url = `https://www.googleapis.com/books/v1/volumes?q=`;
-  if (req.body.search[1] === 'title') { url += `+intitle:${req.body.search[0]};` }
-  else { url += `+inauthor:${req.body.search[0]};` }
+  if (req.body.search[1] === 'title') { url += `+intitle:${req.body.search[0]};`;}
+  if (req.body.search[1] === 'author') { url += `+inauthor:${req.body.search[0]};`;}
   superagent.get(url)
     .then(data => {
       let results = data.body.items.map(obj => new Book(obj));
-      res.render('pages/searches/show', { searchResults: results })
+      console.log(results);
+      res.render('pages/searches/show', { searchResults: results, });
     })
-
 
 
     .catch(() => errorHandler('Error 500 ! Something has gone wrong with the  bookHandler !', req, res));
@@ -138,7 +138,7 @@ function Book(item) {
   this.authors = item.volumeInfo.authors || ['no title available'];
   this.image = `<img src="${item.volumeInfo.imageLinks.smallThumbnail}">` || 'no picture available';
   this.description = item.volumeInfo.description || 'no description available';
-  this.isbn = item.industryIdentifiers.type;
+  // this.isbn = item.industryIdentifiers.type;
 }
 
 
